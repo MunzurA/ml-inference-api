@@ -2,6 +2,7 @@ import joblib
 import logging
 import os
 import numpy as np
+import pandas as pd
 from fastapi import FastAPI, HTTPException
 from app.schemas import IrisFeatures
 
@@ -26,14 +27,14 @@ model, scaler = load_artifacts()
 @app.post("/predict")
 def predict(features: IrisFeatures):
     try:
-        input_data = np.array(
+        input_data = pd.DataFrame(
             [
-                [
-                    features.feature1,
-                    features.feature2,
-                    features.feature3,
-                    features.feature4,
-                ]
+                {
+                    "sepal length (cm)": features.feature1,
+                    "sepal width (cm)": features.feature2,
+                    "petal length (cm)": features.feature3,
+                    "petal width (cm)": features.feature4,
+                }
             ]
         )
 
